@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PROYECTO ESB</title>
+    <!-----Vinculación de archivo css bootstrap 4 ------>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/toast.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery-ui.css') }}">
+</head>
+
+<body style="background: #3fc4a7;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #1b8d9f, #0da5b8);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #0c589b, #1630a4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        ">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Ricardo Jara | Juan Cañar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+
+<div>
+    {% block body %} {% endblock %}
+</div>
+
+
+<!-----Vinculación de archivos javascript bootstrap 4 ------>
+<script src="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+
+<!-- jQuery library -->
+<script src="{{ url_for('static', filename='js/jquery-1.11.2.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/jquery-ui.js') }}"></script>
+
+<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/validaciones.js') }}"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,158 @@
+<!--[if IE]>
+Esto sólo lo ve Internet Explorer
+<![endif]-->
+
+{% extends "cabecera.html" %} {% block body %}
+    <div class="d-flex flex-row justify-content-center">
+        <div class="p-2 " style="width: 40%;">
+            <div class="card text-white bg-success ">
+                <div class="card-header">Obtener Usuario y Mascota</div>
+                <div class="card-body pm20">
+                    <div class="input-group form-group">
+                        <form method="POST" action="/sendDatos">
+                            <label class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user">Seleccione ID de Persona</i>
+                                </span>
+                                <select class="form-select" aria-label="Default select example" name="id_usr">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </label>
+                            <label class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user">Seleccione Raza de Perro</i>
+                                </span>
+                                <select class="form-select" aria-label="Default select example" name="raza">
+                                    <option value="boxer">boxer</option>
+                                    <option value="brabancon">brabancon</option>
+                                    <option value="briard">briard</option>
+                                    <option value="cockapoo">cockapoo</option>
+                                    <option value="dingo">dingo</option>
+                                    <option value="doberman">doberman</option>
+                                    <option value="husky">husky</option>
+                                    <option value="labrador">labrador</option>
+                                    <option value="pug">pug</option>
+                                    <option value="basenji">basenji</option>
+                                </select>
+                            </label>
+                            <input class=" btn btn-primary btn-block" type="submit" value="Generar Usuario y Mascota">
+                        </form>
+                        <br> <br>
+                    </div>
+                    <div class="input-group form-group">
+                        <form method="POST" action="/getProductos">
+                            <label class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user">Precio Inicial</i>
+                                </span>
+                                <input name="cant1">
+                            </label>
+                            <label class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user">Precio Final</i>
+                                </span>
+                                <input name="cant2">
+                            </label>
+                            <label class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user">Cantidad</i>
+                                </span>
+                                <input name="stock">
+                            </label>
+                            <input class=" btn btn-primary btn-block" type="submit" value="Buscar Productos">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=" p-2 " style="width: 40%;">
+            <div class="card text-white border-success ">
+                {% if datos %}
+                    <div class="card-header text-secondary">Datos Sugeridos del Sistema</div>
+                    <div class="card-body pm20">
+
+                        <label class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user">Nombre</i>
+                                </span>
+                            <label class="input-group-text"> {{ datos.nombre }}</label>
+                        </label>
+                        <label class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user">Usuario</i>
+                                </span>
+                            <label class="input-group-text">{{ datos.usuario }}</label>
+                        </label>
+                        <label class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user">Correo</i>
+                                </span>
+                            <label class="input-group-text"> {{ datos.correo }}</label>
+                        </label>
+                        <label class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user">Telefono</i>
+                                </span>
+                            <label class="input-group-text"> {{ datos.telefono }}</label>
+                        </label>
+                        <label class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user">Pagina</i>
+                                </span>
+                            <label class="input-group-text"><a target="_blank"
+                                                               href="http://www.{{ datos.pagina }}"> {{ datos.pagina }}</a></label>
+                        </label>
+                        <label class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-user">IMAGEN</i>
+                                </span>
+                            <label class="input-group-text"><a target="_blank"
+                                                               href="file:///{{ datos.path }}">
+                                file:///{{ datos.path }}</a></label>
+                        </label>
+                        <img src="{{ datos.imagen }}" alt="Perro" class="img-fluid" width="100%" height="100%">
+
+                    </div>
+                    </div>
+                {% endif %}
+            {% if lista %}
+                <div class="card text-white border-success ">
+                    <div class="card-header text-secondary">Tabla De Productos</div>
+                    <div class="card-body pm20">
+                        <table class="table table-striped table-dark table-sm">
+                            <thead>
+                            <tr>
+                                <td>ID</td>
+                                <td>Nombres</td>
+                                <td>PRECIO</td>
+                                <td>STOCK</td>
+                            </tr>
+                            </thead>
+                            <tbody id='filas'>
+                            {% for usr in lista %}
+                                <tr>
+                                    <td>{{ usr.0 }} </td>
+                                    <td>{{ usr.1 }}</td>
+                                    <td>{{ usr.2 }}</td>
+                                    <td>{{ usr.3 }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+{% endblock %}

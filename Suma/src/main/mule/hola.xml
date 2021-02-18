@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config"
+		doc:name="HTTP Listener config"
+		doc:id="d5c0d0ba-2893-41e0-859b-b9ae418f05f1" basePath="/">
+		<http:listener-connection host="localhost"
+			port="8081" />
+	</http:listener-config>
+	<http:request-config
+		name="HTTP_Request_configuration"
+		doc:name="HTTP Request configuration"
+		doc:id="7bc2078b-eb93-4fa6-9f36-f0d0e989774b">
+		<http:request-connection host="localhost"
+			port="1010" />
+	</http:request-config>
+	<http:request-config
+		name="HTTP_Request_configuration1"
+		doc:name="HTTP Request configuration"
+		doc:id="1b469e69-058f-4304-8e8b-924efc302a49">
+		<http:request-connection host="localhost" port="1010" />
+	</http:request-config>
+	<flow name="holaFlow" doc:id="80bd5165-93c3-4c35-a896-f2c40459fa83" >
+		<http:listener doc:name="Listener" doc:id="bf79d04d-e7f9-4bda-bf3b-8ab06c8b13b2" config-ref="HTTP_Listener_config" path="/"/>
+		<http:request method="GET" doc:name="Request" doc:id="5557630a-1cb0-46b1-8106-e13b0f3d2cb2" config-ref="HTTP_Request_configuration" path="/num1"/>
+		<set-variable value="#[payload.num1]" doc:name="num1" doc:id="325898fd-0706-40da-8867-8a6337d5fe6c" variableName="num1"/>
+		<choice doc:name="Choice" doc:id="3e6952f3-39f2-4e73-8f25-6c9f588f9293" >
+			<when expression="#[vars.num1 &gt; 0.5]">
+				<logger level="INFO" doc:name="Logger" doc:id="ef317075-236b-473d-98b6-4b456ff726ae" message='"Es mayoy a 0.5'/>
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="cc1f29c1-fa4a-460d-b33d-0a09c5eba446" message="Es menor a 0.5"/>
+			</otherwise>
+		</choice>
+		<http:request method="GET" doc:name="Request" doc:id="371bcdaa-f610-4b68-80aa-1bda88b1b529" config-ref="HTTP_Request_configuration1" path="/num2"/>
+		<set-variable value="#[payload.num2]" doc:name="num2" doc:id="41f58f54-81cc-47ea-a664-7ca454cb8da6" variableName="num2"/>
+		<logger level="INFO" doc:name="Logger" doc:id="a0153af1-9eef-48e2-8b70-303fbf8bc560" message='#[vars.num1] + hola + #[vars.num2]'/>
+		<http:request method="POST" doc:name="Request" doc:id="95201b4b-b23d-4d61-81e2-6d4ab09a4ce7" path="/suma" config-ref="HTTP_Request_configuration1">
+			<http:body ><![CDATA[#[{"num1":vars.num1, "num2":vars.num2}]]]></http:body>
+		</http:request>
+		<set-variable value="#[payload.suma]" doc:name="Set Variable" doc:id="d3139fbd-f304-4404-b564-7bde67d31982" variableName="resultado"/>
+		<set-payload value='#[{"suma": (vars.num1 + vars.num2), "num1":vars.num1, "num2":vars.num2, "resultado":vars.resultado, "test": 10}]' doc:name="return" doc:id="039f138e-0741-4f9c-af76-2fcda13f1819" />
+	</flow>
+</mule>
